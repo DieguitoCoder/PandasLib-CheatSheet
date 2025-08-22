@@ -1,0 +1,34 @@
+
+import pandas as pd
+import numpy as np
+
+# 📌 1. Crear un DataFrame simulado
+data = {
+    "Producto": ["Mouse", "Teclado", "Monitor", "Mouse", "Monitor", "Teclado"],
+    "Precio": [20, 50, 200, 25, np.nan, 55],
+    "Cantidad": [5, 3, 2, 7, 1, 4],
+    "Categoria": ["Accesorios", "Accesorios", "Pantallas", "Accesorios", "Pantallas", "Accesorios"]
+}
+
+df = pd.DataFrame(data)
+
+# 📌 2. Explorar los datos
+print("Primeras filas:\n", df.head())
+print("\nInformación general:\n")
+df.info()
+
+# 📌 3. Manejo de valores nulos
+df["Precio"].fillna(df["Precio"].mean(), inplace=True)
+
+# 📌 4. Crear una nueva columna
+df["Total"] = df["Precio"] * df["Cantidad"]
+
+# 📌 5. Estadísticas descriptivas
+print("\nEstadísticas de precios y totales:\n", df[["Precio", "Total"]].describe())
+
+# 📌 6. Agrupamiento por categoría
+ventas_categoria = df.groupby("Categoria")["Total"].sum()
+print("\nVentas por categoría:\n", ventas_categoria)
+
+# 📌 7. Filtrar productos con total mayor a 100
+print("\nProductos con ventas > 100:\n", df[df["Total"] > 100])
